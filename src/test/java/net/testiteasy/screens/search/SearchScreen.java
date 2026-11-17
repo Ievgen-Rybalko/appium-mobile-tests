@@ -145,14 +145,22 @@ public class SearchScreen {
                 .click();
     }
 
+    // suggested solution #1: make approach match your method closeWikipediaGamesPopupIfPresent()
+    // suggested solution #2: same as closeNewSearchOnboardingIfPresent()
+    // as we experimenting here - we may have 2 approaches for similar action "clickIfPresent()"
+
+    // one more thing about naming. As in Selenide Conditions we have defined Condition.visible =>
+    // it's better to use same in method's name: closeWikipediaGamesPopupIfPresent() => closeWikipediaGamesPopupIfVisible()
+    // Condition.exist and Condition.visible are defined - tend to use them, rather than synonyms, to be unambiguous
+    // pay attention on difference between conditions "exist" and "visible"
     public void closeYearInReviewOnboardingIfPresent() {
         SelenideElement closeButton =
-            $(YEAR_IN_REVIEW_ONBOARDING_CLOSE)
-                    .shouldBe(Condition.visible);
+            $(YEAR_IN_REVIEW_ONBOARDING_CLOSE);
+//                    .shouldBe(Condition.visible); <= if element will not be visible we get an exception here
         if (closeButton.is(Condition.visible)) {
             closeButton.click();
         }
-
+// extra line not needed here => code is read good without it
     }
 
     public void closeWikipediaGamesPopupIfPresent() {
