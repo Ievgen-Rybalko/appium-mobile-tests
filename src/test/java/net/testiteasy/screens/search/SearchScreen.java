@@ -12,6 +12,8 @@ import static com.codeborne.selenide.Selenide.back;
 
 import io.appium.java_client.AppiumBy;
 
+// locators below are Android-only (resource-ids / android.widget.* classes);
+// IOSSearchScreen does not override them, so these steps aren't runnable on iOS yet
 public class SearchScreen {
 
     private final By SEARCH_FIELD_PLACEHOLDER =
@@ -49,8 +51,9 @@ public class SearchScreen {
     private final By MORE_OPTIONS =
             AppiumBy.accessibilityId("More options");
 
-    private final By ARTICLE_WEB_VIEW =
-            By.id("org.wikipedia.dev:id/page_web_view");
+    // delete commented. Zero tolerance to dead-code or provide a reason in a comment why it should be here
+//    private final By ARTICLE_WEB_VIEW =
+//            By.id("org.wikipedia.dev:id/page_web_view");
 
     private final By SEARCH_RESULTS =
             By.id("org.wikipedia.dev:id/fragment_search_results");
@@ -84,11 +87,12 @@ public class SearchScreen {
         }
     }
 
-    public void selectSearchResult(String itemText) {
-        $(searchResult(itemText))
-                .shouldBe(Condition.visible)
-                .click();
-    }
+    // delete commented
+//    public void selectSearchResult(String itemText) {
+//        $(searchResult(itemText))
+//                .shouldBe(Condition.visible)
+//                .click();
+//    }
 
     public void checkArticleOpened(String articleTitle) {
         By articleTitleLocator = By.xpath(
@@ -102,12 +106,11 @@ public class SearchScreen {
         $(articleTitleLocator).shouldBe(Condition.visible);
     }
 
-    public void checkArticleOpened() {
-        $(ARTICLE_WEB_VIEW)
-                .shouldBe(Condition.visible);
-    }
-
-
+    // dead code => delete commented
+//    public void checkArticleOpened() {
+//        $(ARTICLE_WEB_VIEW)
+//                .shouldBe(Condition.visible);
+//    }
 
     public void pressBack() {
         back();
@@ -134,13 +137,9 @@ public class SearchScreen {
         closeToolbarOnboardingIfPresent();
     }
 
+    // reuse searchResult(...) instead of re-building the same xpath here (was duplicated)
     private void clickOnSearchResult(String itemText) {
-        $(By.xpath(
-                String.format(
-                        "//android.widget.TextView[@text=\"%s\"]",
-                        itemText
-                )
-        ))
+        $(searchResult(itemText))
                 .shouldBe(Condition.visible)
                 .click();
     }
