@@ -125,13 +125,19 @@ public class SearchScreen {
     public void selectFirstSearchResult(String itemText) {
 
         $(SEARCH_RESULTS)
-                .shouldBe(Condition.visible);
+                .shouldBe(Condition.visible); // <= here if not visible we get exception.
+        // as element visibility mandatory here =>
+        // wrap with "try - catch" with clear explicit exception reason
         clickOnSearchResult(itemText);
 
         if ($(SEARCH_RESULTS_INFORMATION_ICON).is(Condition.visible)) {
             clickOnSearchResult(itemText);
         }
 
+        // Wikipedia shows random onboarding banners right after opening a result =>
+        // dismiss anything that might cover the article before returning to the caller
+
+        // all 3 steps could be moved to private method closeAllOnboardingBanners(), so public method will be cleaner
         closeYearInReviewOnboardingIfPresent();
         closeWikipediaGamesPopupIfPresent();
         closeToolbarOnboardingIfPresent();
